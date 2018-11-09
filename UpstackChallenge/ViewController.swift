@@ -8,13 +8,26 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class ViewController: UITableViewController {
 
+        // MARK: - Instance Variables
+        lazy var todos: [Todo] = [];
+
+        // MARK: - View Hierarchy
         override func viewDidLoad() {
                 super.viewDidLoad()
                 // Do any additional setup after loading the view, typically from a nib.
+
+                var todoService = TodosService();
+                todoService.fetchTodos(completion: { todos in
+                        self.todos = todos
+                        DispatchQueue.main.async {
+                                self.tableView.reloadData();
+                        }
+                });
         }
-
-
 }
 
+extension UIViewController: UITableViewDelegate {
+
+}
